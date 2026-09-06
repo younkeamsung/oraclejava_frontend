@@ -47,6 +47,48 @@ class MovieClients{
             errors: []
         };
     }
+
+    async updateMovieAsync(updatedMovie: MovieDetails): Promise<CommandResult> {
+        const response = await fetch(`${this.baseUrl}/movies/${updatedMovie.id}`, {
+            method: 'PUT',
+            headers: {  
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updatedMovie)
+        });
+
+        if (!response.ok) {
+            //throw new Error(`Failed to update movie: ${response.statusText}`);
+            return {
+                succeeded: false,
+                errors: [`Failed to update movie: ${response.statusText}`]
+            };
+        }
+
+        
+        return {
+            succeeded: true,
+            errors: []
+        };
+    }
+
+    async deleteMovieAsync(id: string): Promise<CommandResult> {
+        const response = await fetch(`${this.baseUrl}/movies/${id}`, {
+            method: 'DELETE'
+        });
+
+        if (!response.ok) {
+            return {
+                succeeded: false,
+                errors: [`Failed to delete movie: ${response.statusText}`]
+            };
+        }
+
+        return {
+            succeeded: true,
+            errors: []
+        };
+    }
 }
 
 export default MovieClients;

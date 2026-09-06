@@ -41,7 +41,7 @@ const EditMovie: React.FC = () => {
             }
         };
         fetchData();
-    }, []); // 최초 1회만 반복
+    }, [id]); // id가 변경될 때마다 실행
 
     const handleInputChange = 
     (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -58,11 +58,19 @@ const EditMovie: React.FC = () => {
         if(!movie) return;
         console.log(movie); //handleSubmit 이벤트가 발생되면 콘솔에 movie 객체를 출력
         const movieClient = new MovieClients();
-        const result = await movieClient.addMovieAsync(movie);
+
+        let result;
+        if(!id){
+            result = await movieClient.addMovieAsync(movie);
+        } else {
+            movie.id = id; // id가 존재하면 movie 객체에 id를 설정
+            result = await movieClient.updateMovieAsync(movie);
+        }
+
         if(result.succeeded){
             navigate('/'); // 영화 추가 성공 시 홈으로 이동
         } else {
-            alert(`영화 추가 실패: ${result.errors.join(', ')}`); // 영화 추가 실패 시 에러 메시지 표시
+            alert(`영화 저장 실패: ${result.errors.join(', ')}`); // 영화 추가 실패 시 에러 메시지 표시
         }
 
     }
