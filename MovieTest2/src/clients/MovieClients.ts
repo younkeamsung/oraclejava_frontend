@@ -3,7 +3,8 @@ import type { MovieDetails } from '../models/MovieDetails';
 import type {MovieSummary} from '../models/MovieSummary'
 
 class MovieClients{
-    private baseUrl = "/api";
+    private baseUrl = import.meta.env.VITE_API_URL;
+    //private baseUrl = "/api";
 
     async getMoviesAsync(): Promise<MovieSummary[]> {
         const response = await fetch(`${this.baseUrl}/movies`);

@@ -8,7 +8,7 @@ import EditMovie from './pages/EditMovie.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/react">
       <Routes>
         <Route path="/" element={<App />}>
           <Route index element={<Home />} />
